@@ -2,7 +2,8 @@
 
 
 ## 资料
-[Spring官方文档](https://spring.io/guides)
+[Spring官方网站](https://spring.io/guides)
+[SpringBoot官方文档](https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/reference/html/spring-boot-features.html#boot-features-sql)
 [elasticsearch社区](https://elasticsearch.cn/)
 [Springboot中文资料导航](http://springboot.fun/)
 [bootstrap入门](https://v3.bootcss.com/getting-started/)
@@ -11,5 +12,18 @@
 ## 工具
 [bootstrap下载](https://www.bootcss.com/)
 [git](https://git-scm.com/)
-[VP工具](https://www.visual-paradigm.com/cn/)
+[VP画图工具](https://www.visual-paradigm.com/cn/)
 [OkHttp](https://square.github.io/okhttp/)
+[h2数据库](http://h2database.com/html/main.html)
+[Mybatis持久层框架](https://mybatis.org/mybatis-3/zh/index.html)
+##脚本
+```sql
+CREATE TABLE USER(
+    "ID" INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    "ACCOUNT_ID" VARCHAR(100),
+    "NAME" VARCHAR(50),
+    "TOKEN" CHAR(36),
+    "GMT_CREATE" BIGINT,
+    "GMT_MODIFIED" BIGINT
+)
+```
