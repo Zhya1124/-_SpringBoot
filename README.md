@@ -15,15 +15,16 @@
 [VP画图工具](https://www.visual-paradigm.com/cn/)  
 [OkHttp](https://square.github.io/okhttp/)  
 [h2数据库](http://h2database.com/html/main.html)  
-[Mybatis持久层框架](https://mybatis.org/mybatis-3/zh/index.html)
+[Mybatis持久层框架](https://mybatis.org/mybatis-3/zh/index.html)  
+[Flyway数据库版本管理](https://flywaydb.org/)
 ##脚本
 ```sql
 CREATE TABLE USER(
-    "ID" INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    "ACCOUNT_ID" VARCHAR(100),
-    "NAME" VARCHAR(50),
-    "TOKEN" CHAR(36),
-    "GMT_CREATE" BIGINT,
-    "GMT_MODIFIED" BIGINT
+    ID INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    ACCOUNT_ID VARCHAR(100),
+    NAME VARCHAR(50),
+    TOKEN CHAR(36),
+    GMT_CREATE BIGINT,
+    GMT_MODIFIED BIGINT
 )
 ```
