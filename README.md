@@ -9,14 +9,16 @@
 [bootstrap入门](https://v3.bootcss.com/getting-started/)  
 [Maven仓库](https://mvnrepository.com/)  
 [OAuth文档](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)  
+[thymeleaf官方文档](https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html#setting-attribute-values)  
 ## 工具
 [bootstrap下载](https://www.bootcss.com/)  
 [git](https://git-scm.com/)  
 [VP画图工具](https://www.visual-paradigm.com/cn/)  
 [OkHttp](https://square.github.io/okhttp/)  
-[h2数据库](http://h2database.com/html/main.html)  
+[h2数据库插件](http://h2database.com/html/main.html)  
 [Mybatis持久层框架](https://mybatis.org/mybatis-3/zh/index.html)  
-[Flyway数据库版本管理](https://flywaydb.org/)
+[Flyway数据库版本管理](https://flywaydb.org/)  
+[自动生成POJO代码工具lombok](https://projectlombok.org/)  
 ##脚本
 ```sql
 CREATE TABLE USER(
@@ -27,4 +29,7 @@ CREATE TABLE USER(
     GMT_CREATE BIGINT,
     GMT_MODIFIED BIGINT
 )
+```
+```bash
+mvn flyway:migrate
 ```

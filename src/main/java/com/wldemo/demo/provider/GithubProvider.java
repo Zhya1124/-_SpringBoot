@@ -38,7 +38,7 @@ public class GithubProvider {
         try{
             Response response = client.newCall(request).execute();
             String string = response.body().string();
-            GithubUser githubUser = JSON.parseObject(string, GithubUser.class);//可以将json解析成一个object
+            GithubUser githubUser = JSON.parseObject(string, GithubUser.class);//可以将json解析成一个object,并映射好每个属性
             return githubUser;
         } catch (IOException e) {
         }
