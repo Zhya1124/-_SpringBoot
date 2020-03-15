@@ -1,10 +1,7 @@
 package com.wldemo.demo.mapper;
 
 import com.wldemo.demo.model.Question;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -20,4 +17,8 @@ public interface QuestionMapper {
     List<Question> listByUserId(@Param("userId") Integer userId, @Param(value = "offset") Integer offset, @Param(value = "size") Integer size);
     @Select("select count(1) from question where creator=#{userId}")
     Integer countByUserId(@Param("userId") Integer userId);
+    @Select("select * from question where id=#{id}")
+    Question getById(@Param("id") Integer id);
+    @Update("update question set title=#{title},description=#{description},tag=#{tag},gmt_modified=#{gmtModified} where id=#{id}")
+    void update(Question question);
 }

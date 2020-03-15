@@ -5,6 +5,7 @@ import com.wldemo.demo.dto.GithubUser;
 import com.wldemo.demo.mapper.UserMapper;
 import com.wldemo.demo.model.User;
 import com.wldemo.demo.provider.GithubProvider;
+import com.wldemo.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,7 @@ public class AuthorizeController {
     @Autowired
     private GithubProvider githubProvider;
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
     @Value("${client_id}")
     private String client_id;
     @Value("${client_secret}")
@@ -48,10 +49,9 @@ public class AuthorizeController {
             user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubUser.getAvatar_url());
-            userMapper.insert(user);//插入用户到数据库
+            userService.createOrUpdate(user);
+//            userMapper.insert(user);//插入用户到数据库,因为这样会导致重复插入用户，若重复应更新
             response.addCookie(new Cookie("token",token));
             //request.getSession().setAttribute("user",githubUser);//Session存在于request当中
             return "redirect:/";
@@ -61,5 +61,13 @@ public class AuthorizeController {
             return "redirect:/";
         }
 
+    }
+    @GetMapping("/logout")//退出登录，删除session属性，删除cookie
+    public String logout(HttpServletRequest request,HttpServletResponse response){
+        request.getSession().removeAttribute("user");
+        Cookie cookie = new Cookie("token",null);//新建同名cookie并设置寿命为0就是删除cookie
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 }

@@ -1,7 +1,6 @@
 package com.wldemo.demo.controller;
 
 import com.wldemo.demo.dto.PaginationDTO;
-import com.wldemo.demo.mapper.UserMapper;
 import com.wldemo.demo.model.User;
 import com.wldemo.demo.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class ProfileController {
-    @Autowired
-    private UserMapper userMapper;
     @Autowired
     private QuestionService questionService;
     @GetMapping("/profile/{action}")
@@ -26,20 +22,7 @@ public class ProfileController {
                           Model model,
                           @RequestParam(value = "page",defaultValue = "1")Integer page,
                           @RequestParam(value = "size",defaultValue = "5")Integer size) {
-        Cookie[] cookies = request.getCookies();//从客户端的请求里拿cookies
-        User user = null;
-        if(cookies != null && cookies.length!=0){ //不判空的话，如果清除cookie会出现问题
-            for (Cookie cookie : cookies) {
-                if(cookie.getName().equals("token")){//找一个叫token 的cookie
-                    String token = cookie.getValue();
-                    user = userMapper.findByToken(token);
-                    if(user != null){
-                        request.getSession().setAttribute("user", user);//拿到user的cookie后放进session里
-                    }
-                    break;//找到了user后退出
-                }
-            }
-        }
+        User user = (User) request.getSession().getAttribute("user");//因为cookie已经放在拦截器里做了从session里获取user
         if (user==null){    //没有用户就回到主页
             return "redirect:/";
         }
