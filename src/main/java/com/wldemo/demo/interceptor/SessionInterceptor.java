@@ -2,6 +2,7 @@ package com.wldemo.demo.interceptor;
 
 import com.wldemo.demo.mapper.UserMapper;
 import com.wldemo.demo.model.User;
+import com.wldemo.demo.model.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -10,6 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+
 @Service//以便spring可以接管下面的注入
 public class SessionInterceptor implements HandlerInterceptor {
     @Autowired
@@ -21,9 +24,12 @@ public class SessionInterceptor implements HandlerInterceptor {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("token")) {//找一个叫token 的cookie
                     String token = cookie.getValue();
-                    User user = userMapper.findByToken(token);
-                    if (user != null) {
-                        request.getSession().setAttribute("user", user);
+                    UserExample userExample = new UserExample();
+                    userExample.createCriteria().andTokenEqualTo(token);//通用sql语句拼接
+                    List<User> users = userMapper.selectByExample(userExample);//返回几个都是list类型
+                    //User user = userMapper.findByToken(token);
+                    if (users.size() != 0) {
+                        request.getSession().setAttribute("user", users.get(0));
                     }
                     break;//找到了user后退出
                 }

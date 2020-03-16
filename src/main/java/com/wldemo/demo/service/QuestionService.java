@@ -43,7 +43,7 @@ public class QuestionService {  //组装user和question
         List<Question> questionList = questionMapper.list(offset, size);//查询出的是一页需要的量
         List<QuestionDTO> questionDTOList = new ArrayList<>();
         for (Question question : questionList) {//查每个问题的user并加入到dto中
-            User user = userMapper.findById(question.getCreator());
+            User user = userMapper.selectByPrimaryKey(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question, questionDTO);//拷贝一个对象的全部属性到另一个对象，避免写太多set
             questionDTO.setUser(user);
@@ -78,7 +78,7 @@ public class QuestionService {  //组装user和question
         List<Question> questionList = questionMapper.listByUserId(userId,offset, size);//查询出的是一页需要的量
         List<QuestionDTO> questionDTOList = new ArrayList<>();
         for (Question question : questionList) {//查每个问题的user并加入到dto中
-            User user = userMapper.findById(question.getCreator());
+            User user = userMapper.selectByPrimaryKey(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question, questionDTO);//拷贝一个对象的全部属性到另一个对象，避免写太多set
             questionDTO.setUser(user);
@@ -93,7 +93,7 @@ public class QuestionService {  //组装user和question
         Question question = questionMapper.getById(id);
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question,questionDTO);
-        User user = userMapper.findById(question.getCreator());
+        User user = userMapper.selectByPrimaryKey(question.getCreator());
         questionDTO.setUser(user);
         return questionDTO;
     }
