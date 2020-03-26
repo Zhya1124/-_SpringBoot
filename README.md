@@ -20,6 +20,7 @@
 [Mybatis持久层框架](https://mybatis.org/mybatis-3/zh/index.html)  
 [Flyway数据库版本管理](https://flywaydb.org/)  
 [自动生成POJO代码工具lombok](https://projectlombok.org/)  
+[tabbed postman插件](https://chrome.google.com/webstore/detail/tabbed-postman-rest-clien/)
 ##脚本
 ```sql
 CREATE TABLE USER(
