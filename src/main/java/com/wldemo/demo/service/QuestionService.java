@@ -11,12 +11,15 @@ import com.wldemo.demo.model.Question;
 import com.wldemo.demo.model.QuestionExample;
 import com.wldemo.demo.model.User;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {  //组装user和question
@@ -47,8 +50,9 @@ public class QuestionService {  //组装user和question
         }
         paginationDTO.setPagination(totalPage, page);//计算好对应的标志和页数
         Integer offset = size * (page - 1);//计算offset
-        //List<Question> questionList = questionMapper.list(offset, size);//查询出的是一页需要的量
-        List<Question> questions = questionMapper.selectByExampleWithRowbounds(new QuestionExample(), new RowBounds(offset, size));
+        QuestionExample questionExample = new QuestionExample();
+        questionExample.setOrderByClause("gmt_create desc");
+        List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample, new RowBounds(offset, size));
         List<QuestionDTO> questionDTOList = new ArrayList<>();
         for (Question question : questions) {//查每个问题的user并加入到dto中
             User user = userMapper.selectByPrimaryKey(question.getCreator());
@@ -145,5 +149,25 @@ public class QuestionService {  //组装user和question
         question.setId(id);
         question.setViewCount(1);//详情见ext。xml，这是值我指定的增量,view_count = view_count + 1，这样就不会出现覆盖
         questionExtMapper.incView(question);
+    }
+
+    public List<QuestionDTO> selectRelated(QuestionDTO queryDTO) {
+        if(StringUtils.isBlank(queryDTO.getTag()))
+        {
+            return new ArrayList<>();
+        }
+        String[] tags = StringUtils.split(queryDTO.getTag(),",");
+        String regexpTag = Arrays.stream(tags).collect(Collectors.joining("|"));//正则|代表或，用于查询语句
+        Question question = new Question();
+        question.setId(queryDTO.getId());
+        question.setTag(regexpTag);
+        List<Question> questions = questionExtMapper.selectRelated(question);//查询出来相关问题
+        List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(q,questionDTO);
+            return questionDTO;
+        }).collect(Collectors.toList());//转换questionDTO
+
+        return questionDTOS;
     }
 }

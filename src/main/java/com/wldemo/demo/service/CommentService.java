@@ -4,17 +4,13 @@ import com.wldemo.demo.dto.CommentDTO;
 import com.wldemo.demo.enums.CommentTypeEnum;
 import com.wldemo.demo.exception.CustomizeErrorCode;
 import com.wldemo.demo.exception.CustomizeException;
-import com.wldemo.demo.mapper.CommentMapper;
-import com.wldemo.demo.mapper.QuestionExtMapper;
-import com.wldemo.demo.mapper.QuestionMapper;
-import com.wldemo.demo.mapper.UserMapper;
+import com.wldemo.demo.mapper.*;
 import com.wldemo.demo.model.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.Utilities;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +27,8 @@ public class CommentService {
     private QuestionExtMapper questionExtMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private CommentExtMapper commentExtMapper;
     @Transactional
     public void insert(Comment comment) {//先做异常处理
         if(comment.getParentId() == null || comment.getParentId() == 0){
@@ -45,6 +43,12 @@ public class CommentService {
             if(dbComment == null){
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
+            commentMapper.insert(comment);//这里忘了加插入了
+
+            Comment parentComment = new Comment();
+            parentComment.setId(comment.getParentId());
+            parentComment.setCommentCount(1);
+            commentExtMapper.incCommentCount(parentComment);//日常增1插入
         }else{
             //回复问题
             Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
@@ -54,14 +58,14 @@ public class CommentService {
             commentMapper.insert(comment);
             question.setCommentCount(1);//这时步长，详见xml！！！不要看英文
             questionExtMapper.incCommentCount(question);//这种count类的都这样做
-        }
+       }
     }
 
-    public List<CommentDTO> listByQuestionId(Long id) {
+    public List<CommentDTO> listByTargetId(Long id, CommentTypeEnum type) {
         CommentExample example = new CommentExample();
         example.createCriteria()
                 .andParentIdEqualTo(id)
-                .andTypeEqualTo(CommentTypeEnum.QUESTION.getType());//查类型是问题，父id是问题id,这个问题下所有回复
+                .andTypeEqualTo(type.getType());//查类型是问题，父id是问题id,这个问题下所有回复
         example.setOrderByClause("gmt_create desc");
         List<Comment> comments = commentMapper.selectByExample(example);
         if(comments.size() == 0){

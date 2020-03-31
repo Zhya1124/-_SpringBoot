@@ -10,7 +10,8 @@
 [Maven仓库](https://mvnrepository.com/)  
 [OAuth文档](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)  
 [thymeleaf官方文档](https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html#setting-attribute-values)  
-[MyBatisGenerator代码生成](http://mybatis.org/generator/)
+[MyBatisGenerator代码生成](http://mybatis.org/generator/)  
+[Jqeury](https://jquery.com/)
 ## 工具
 [bootstrap下载](https://www.bootcss.com/)  
 [git](https://git-scm.com/)  
