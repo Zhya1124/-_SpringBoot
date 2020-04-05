@@ -34,14 +34,14 @@ function comment2target(targetId, type, content) {
 }
 
 
-//提交回复
+//提交问题回复
 function post() {
     var questionId = $("#question_id").val();
     var content = $("#comment_content").val();
     comment2target(questionId, 1, content);
 }
 
-//提交评论
+//提交二级评论
 function comment(e) {
     var commentId = e.getAttribute("data-id");
     var content = $("#input-" + commentId).val();//获取input的输入数据
@@ -113,4 +113,18 @@ function collapseComments(e) {
         }
     }
     console.log(id);
+}
+function selectTag(e) {
+    var previous = $("#tag").val();//之前input上的值
+    var selectTag = e.getAttribute("data-tag");
+    if(previous.indexOf(selectTag) == -1){//如果之前input上的值没有过这个标签
+        if(previous){//如果之前input上有任何输入，就连在后面
+            $("#tag").val(previous + "," + selectTag);
+        }else{
+            $("#tag").val(selectTag);
+        }
+    }
+}
+function showSelectTag(){
+    $("#select-tag").show();
 }

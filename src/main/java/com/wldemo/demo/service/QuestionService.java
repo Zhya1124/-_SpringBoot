@@ -61,7 +61,7 @@ public class QuestionService {  //组装user和question
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
-        paginationDTO.setQuestions(questionDTOList);//给DTO所需的查询量
+        paginationDTO.setData(questionDTOList);//给DTO所需的查询量
 
         return paginationDTO;
     }
@@ -101,7 +101,7 @@ public class QuestionService {  //组装user和question
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
-        paginationDTO.setQuestions(questionDTOList);//给DTO所需的查询量
+        paginationDTO.setData(questionDTOList);//给DTO所需的查询量
 
         return paginationDTO;
     }

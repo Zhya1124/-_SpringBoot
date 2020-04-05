@@ -3,6 +3,7 @@ package com.wldemo.demo.interceptor;
 import com.wldemo.demo.mapper.UserMapper;
 import com.wldemo.demo.model.User;
 import com.wldemo.demo.model.UserExample;
+import com.wldemo.demo.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -17,6 +18,8 @@ import java.util.List;
 public class SessionInterceptor implements HandlerInterceptor {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private NotificationService notificationService;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Cookie[] cookies = request.getCookies();//从客户端的请求里拿cookies，拿到cookie拿token再找用户，最后放进session里
@@ -30,6 +33,8 @@ public class SessionInterceptor implements HandlerInterceptor {
                     //User user = userMapper.findByToken(token);
                     if (users.size() != 0) {
                         request.getSession().setAttribute("user", users.get(0));
+                        Long unreadCount = notificationService.unreadCount(users.get(0).getId());
+                        request.getSession().setAttribute("unreadCount",unreadCount);
                     }
                     break;//找到了user后退出
                 }

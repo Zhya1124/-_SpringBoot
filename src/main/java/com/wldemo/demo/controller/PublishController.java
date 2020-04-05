@@ -2,9 +2,11 @@ package com.wldemo.demo.controller;
 
 import com.wldemo.demo.dto.QuestionDTO;
 import com.wldemo.demo.mapper.QuestionMapper;
+import com.wldemo.demo.cache.tagCache;
 import com.wldemo.demo.model.Question;
 import com.wldemo.demo.model.User;
 import com.wldemo.demo.service.QuestionService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,10 +29,13 @@ public class PublishController {
         model.addAttribute("description", question.getDescription());
         model.addAttribute("tag",question.getTag());
         model.addAttribute("id",question.getId());//查找出问题id
+        model.addAttribute("tags",tagCache.get());//三个mapping都要设置model不然出大问题
+
         return "publish";
     }
     @GetMapping("/publish")
-    public String publish(){
+    public String publish(Model model){
+        model.addAttribute("tags",tagCache.get());//弄了一堆string相当于缓存到内存了
         return "publish";
     }
     @PostMapping("/publish")
@@ -43,6 +48,7 @@ public class PublishController {
         model.addAttribute("title", title);
         model.addAttribute("description", description);
         model.addAttribute("tag", tag); //做三个不为空验证，并显示到前端，就是出错了也不能删掉之前编辑的内容
+        model.addAttribute("tags",tagCache.get());//三个mapping都要设置model不然出大问题
         if(title == null||title==""){
             model.addAttribute("error","标题不能为空");
             return "publish";
@@ -53,6 +59,11 @@ public class PublishController {
         }
         if(tag == null||tag==""){
             model.addAttribute("error","标签不能为空");
+            return "publish";
+        }
+        String invalid = tagCache.filterInvalid(tag);
+        if(StringUtils.isNotBlank(invalid)){
+            model.addAttribute("error","输入非法标签" + invalid);
             return "publish";
         }
         User user = (User) request.getSession().getAttribute("user");//因为cookie已经放在拦截器里做了从session里获取user

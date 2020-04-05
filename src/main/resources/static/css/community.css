@@ -32,7 +32,6 @@ body {
 }
 
 .community-menu {
-    display: block;
     margin-bottom: 15px;
     color: #999;
     font-size: 13px;
@@ -103,6 +102,16 @@ body {
 }
 .question-wechat{
     width: 100%;
+}
+.publish-tag-tab{
+    display: none;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+.publish-tag-tab .label-info{
+    white-space: normal;
+    margin: 5px 5px;
+    display: inline-block;
 }
 .sub-comments {
     border-radius: 5px;
