@@ -75,6 +75,9 @@ public class CommentService {
     }
 
     private void createNotify(Comment comment, Long receiver, String notifierName, String outerTitle, NotificationTypeEnum notificationType, Long outerId) {
+        if(receiver == comment.getCommentator()){
+            return;//说明评论者和接收者是一个人不要通知
+        }
         Notification notification = new Notification();
         notification.setGmtCreate(System.currentTimeMillis());
         notification.setType(notificationType.getType());//通知的类型是针对问题的评论还是对评论的评论

@@ -2,6 +2,7 @@ package com.wldemo.demo.service;
 
 import com.wldemo.demo.dto.PaginationDTO;
 import com.wldemo.demo.dto.QuestionDTO;
+import com.wldemo.demo.dto.QuestionQueryDTO;
 import com.wldemo.demo.exception.CustomizeErrorCode;
 import com.wldemo.demo.exception.CustomizeException;
 import com.wldemo.demo.mapper.QuestionExtMapper;
@@ -30,11 +31,20 @@ public class QuestionService {  //组装user和question
     @Autowired
     private QuestionExtMapper questionExtMapper;
 
-    public PaginationDTO list(Integer page, Integer size) {
+    public PaginationDTO list(String search,Integer page, Integer size) {
+        if(StringUtils.isNotBlank(search))//如果搜索框中不为空
+        {
+            String[] tags = StringUtils.split(search," ");
+            search = Arrays.stream(tags).collect(Collectors.joining("|"));//正则|代表或，用于查询语句
+        }
+
 
         PaginationDTO paginationDTO = new PaginationDTO();//分页DTO
         Integer totalPage;
-        Integer totalCount = (int) questionMapper.countByExample(new QuestionExample());//查询获取问题总数
+        //Integer totalCount = (int) questionMapper.countByExample(new QuestionExample());//查询获取问题总数
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);//查询获取问题总数或者有search就搜索
         //该用户总页数(之前在paginationService里现在单独拿出来)
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
@@ -50,9 +60,12 @@ public class QuestionService {  //组装user和question
         }
         paginationDTO.setPagination(totalPage, page);//计算好对应的标志和页数
         Integer offset = size * (page - 1);//计算offset
-        QuestionExample questionExample = new QuestionExample();
-        questionExample.setOrderByClause("gmt_create desc");
-        List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample, new RowBounds(offset, size));
+//        QuestionExample questionExample = new QuestionExample();
+//        questionExample.setOrderByClause("gmt_create desc");
+        //List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample, new RowBounds(offset, size));
+        questionQueryDTO.setPage(offset);
+        questionQueryDTO.setSize(size);
+        List<Question> questions = questionExtMapper.selectBySearch(questionQueryDTO);
         List<QuestionDTO> questionDTOList = new ArrayList<>();
         for (Question question : questions) {//查每个问题的user并加入到dto中
             User user = userMapper.selectByPrimaryKey(question.getCreator());

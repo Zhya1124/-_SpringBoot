@@ -11,7 +11,8 @@
 [OAuth文档](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)  
 [thymeleaf官方文档](https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html#setting-attribute-values)  
 [MyBatisGenerator代码生成](http://mybatis.org/generator/)  
-[Jqeury](https://jquery.com/)
+[Jqeury](https://jquery.com/)   
+[Ufile SDK](https://github.com/ucloud/ufile-sdk-java)
 ## 工具
 [bootstrap下载](https://www.bootcss.com/)  
 [git](https://git-scm.com/)  
@@ -21,7 +22,8 @@
 [Mybatis持久层框架](https://mybatis.org/mybatis-3/zh/index.html)  
 [Flyway数据库版本管理](https://flywaydb.org/)  
 [自动生成POJO代码工具lombok](https://projectlombok.org/)  
-[tabbed postman插件](https://chrome.google.com/webstore/detail/tabbed-postman-rest-clien/)
+[tabbed postman插件](https://chrome.google.com/webstore/detail/tabbed-postman-rest-clien/)   
+[EditorMD编辑器](http://editor.md.ipandao.com/)
 ##脚本
 ```sql
 CREATE TABLE USER(
