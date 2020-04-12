@@ -1,6 +1,22 @@
 ## 类似ElasticSearch问答社区
 
-
+##部署
+- Git
+- JDK
+- MySQL
+- Maven
+##步骤
+- yum update
+- yum install git
+- mkdir App
+- cd App
+- git clone 仓库地址
+- mvn -v
+- mvn compile package
+- cp src/main/resources/application.properties src/main/resources/application-production.properties
+- vim application-production.properties
+- mvn package
+- java -jar -Dspring.profiles.active=production target/demo-0.0.1-SNAPSHOT.jar
 ## 资料
 [Spring官方网站](https://spring.io/guides)  
 [SpringBoot官方文档](https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/reference/html/spring-boot-features.html#boot-features-sql)  
