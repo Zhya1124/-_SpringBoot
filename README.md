@@ -19,6 +19,7 @@
 - java -jar -Dspring.profiles.active=production target/demo-0.0.1-SNAPSHOT.jar
 - ps -aux|grep java
 - git pull
+- mvn clean compile flyway:migrate
 ## 资料
 [Spring官方网站](https://spring.io/guides)  
 [SpringBoot官方文档](https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/reference/html/spring-boot-features.html#boot-features-sql)  
