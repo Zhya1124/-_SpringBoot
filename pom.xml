@@ -103,7 +103,7 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>6.2.4</version>
                 <configuration>
-                    <url>jdbc:mysql://10.9.105.49:3306/caiwen</url>
+                    <url>jdbc:mysql://127.0.0.1:3306/caiwen</url>
                     <user>root</user>
                     <password>caiwen_123</password>
                 </configuration>
