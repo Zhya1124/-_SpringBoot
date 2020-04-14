@@ -59,7 +59,7 @@ public class QuestionService {  //组装user和question
             page = totalPage;
         }
         paginationDTO.setPagination(totalPage, page);//计算好对应的标志和页数
-        Integer offset = size * (page - 1);//计算offset
+        Integer offset = page < 1 ? 0 : size * (page - 1);//计算offset小于1统一偏移为0 避免-5出现
 //        QuestionExample questionExample = new QuestionExample();
 //        questionExample.setOrderByClause("gmt_create desc");
         //List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample, new RowBounds(offset, size));
