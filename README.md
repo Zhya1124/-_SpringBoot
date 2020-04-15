@@ -16,7 +16,7 @@
 - cp src/main/resources/application.properties src/main/resources/application-production.properties
 - vim application-production.properties
 - mvn package
-- java -jar -Dspring.profiles.active=production target/demo-0.0.1-SNAPSHOT.jar
+- nohup java -jar -Dspring.profiles.active=production target/demo-0.0.1-SNAPSHOT.jar & 
 - ps -aux|grep java
 - git pull
 - mvn clean compile flyway:migrate
